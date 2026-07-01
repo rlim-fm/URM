@@ -1,0 +1,3 @@
+[submodule "Tropical-RNN"]
+	path = Tropical-RNN
+	url = https://github.com/rlim-fm/Tropical-RNN.git

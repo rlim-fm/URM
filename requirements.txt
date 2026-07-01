@@ -1,6 +1,5 @@
 torch==2.8.0
 adam-atan2
-adam-atan2-pytorch
 einops
 tqdm
 coolname
@@ -19,10 +18,9 @@ pydantic-core
 huggingface_hub 
 numba
 triton
-# Visualization dependencies
+# Tropical-RNN visualization bridge dependencies (viz_bridge.py)
 numpy
 scipy
 scikit-learn
 matplotlib
 h5py
-ffmpeg-python

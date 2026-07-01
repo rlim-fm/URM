@@ -145,6 +145,9 @@ class PretrainConfig(pydantic.BaseModel):
 
     use_muon: bool = False
 
+    # Streams train/eval loss into a Tropical-RNN Visualizer (viz_bridge.py) alongside wandb.
+    visualize: bool = False
+
 
 
 @dataclass
@@ -975,10 +978,18 @@ def launch(hydra_config: DictConfig):
     print(config) #added
     # Progress bar and logger
     progress_bar = None
+    viz_bridge = None
     if RANK == 0:
         progress_bar = tqdm.tqdm(total=train_state.total_steps)
         if train_state.step > 0:
             progress_bar.update(train_state.step)
+
+        if config.visualize:
+            from viz_bridge import PuzzleVisualizerBridge
+            viz_bridge = PuzzleVisualizerBridge(
+                output_dir=os.path.join(config.checkpoint_path or "visualizations", "visualizations"),
+                name=config.run_name,
+            )
 
         wandb.init(
             project=config.project_name,
@@ -1016,6 +1027,8 @@ def launch(hydra_config: DictConfig):
 
             if RANK == 0 and metrics is not None:
                 wandb.log(metrics, step=train_state.step)
+                if viz_bridge is not None:
+                    viz_bridge.log_train(metrics, train_state.step)
                 progress_bar.update(train_state.step - progress_bar.n)
 
         ############ Evaluation
@@ -1051,6 +1064,8 @@ def launch(hydra_config: DictConfig):
                 )
                 if RANK == 0 and metrics is not None:
                     wandb.log(metrics, step=train_state.step)
+                    if viz_bridge is not None:
+                        viz_bridge.log_eval(metrics, train_state.step)
 
             if loop_config is not None:
                 loop_config.loops = original_loops
@@ -1073,6 +1088,8 @@ def launch(hydra_config: DictConfig):
     # finalize
     if dist.is_initialized():
         dist.destroy_process_group()
+    if viz_bridge is not None:
+        viz_bridge.finalize()
     wandb.finish()
 
 
