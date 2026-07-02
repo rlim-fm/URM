@@ -17,3 +17,6 @@ gpu_check.sh
 /*.sh
 .DS_Store
 .idea
+.claude
+CLAUDE.md
+.venv
