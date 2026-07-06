@@ -3,7 +3,7 @@
 #SBATCH --output=slurm/%j.log
 #SBATCH --error=slurm/%j.err
 
-# Usage: sbatch -p GPU --gres=gpu:pro6000:1 scripts/URM_sudoku_viz.sh
+# Usage: sbatch -p gpu --gres=gpu:pro6000:1 scripts/URM_sudoku_viz.sh
 
 
 # Activate virtual environment
