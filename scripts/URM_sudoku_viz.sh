@@ -1,3 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=URM-sudoku-viz
+#SBATCH --output=slurm/%j.log
+#SBATCH --error=slurm/%j.err
+
+# Usage: sbatch -p GPU --gres=gpu:pro6000:1 scripts/URM_sudoku_viz.sh
+
+
+# Activate virtual environment
+source .venv/bin/activate
+
 run_name="URM-sudoku"
 checkpoint_path="checkpoints/${run_name}"
 mkdir -p $checkpoint_path
