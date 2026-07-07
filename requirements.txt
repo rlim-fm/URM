@@ -4,20 +4,21 @@ einops
 tqdm
 coolname
 pydantic
+pydantic-core
 argdantic
 wandb
 omegaconf
 hydra-core
 huggingface_hub
-packaging 
-ninja 
-wheel 
-setuptools 
+packaging
+ninja
+wheel
+setuptools
 setuptools-scm
-pydantic-core
-huggingface_hub 
 numba
 triton
+flash-attn
+pyyaml
 # Tropical-RNN visualization bridge dependencies (viz_bridge.py)
 numpy
 scipy
